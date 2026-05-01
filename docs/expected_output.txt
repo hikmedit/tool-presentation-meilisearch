@@ -1,0 +1,150 @@
+=== INDEX ===
+Connecting to Meilisearch at http://localhost:7700 ...
+  health: {'status': 'available'}
+Loaded 40 movies from movies.json
+Configuring searchable + filterable + sortable attributes ...
+Adding documents to index 'movies' ...
+  task uid: 3  status: enqueued
+Waiting for indexing to finish ...
+  final status: succeeded  duration: PT0.007497S
+
+Index ready. Documents: 40
+
+Done in 0.09s
+
+=== SEARCH ===
+
+========================================================================
+  1) Basic full-text search: 'godfather'
+========================================================================
+  -> 1 hits shown / 1 total  [1 ms]
+  - title='The Godfather' | year=1972 | rating=9.2
+
+========================================================================
+  2) Typo tolerance: 'godfther' (intentional typo)
+========================================================================
+  -> 1 hits shown / 1 total  [0 ms]
+  - title='The Godfather' | year=1972 | rating=9.2
+
+========================================================================
+  3) Typo tolerance: 'interstelar' (missing letter)
+========================================================================
+  -> 1 hits shown / 1 total  [0 ms]
+  - title='Interstellar' | year=2014 | rating=8.7
+
+========================================================================
+  4) Prefix search: 'inter' (Meilisearch matches as you type)
+========================================================================
+  -> 3 hits shown / 3 total  [0 ms]
+  - title='Interstellar' | year=2014 | rating=8.7
+  - title='Pulp Fiction' | year=1994 | rating=8.9
+  - title='Inception' | year=2010 | rating=8.8
+
+========================================================================
+  5) Filter: action movies after 2010, sorted by rating desc
+========================================================================
+  -> 3 hits shown / 3 total  [0 ms]
+  - title='Avengers: Endgame' | year=2019 | rating=8.4
+  - title='Spider-Man: Into the Spider-Verse' | year=2018 | rating=8.4
+  - title='Blade Runner 2049' | year=2017 | rating=8.0
+
+========================================================================
+  6) Filter + search: 'space' inside Sci-Fi genre
+========================================================================
+  -> 2 hits shown / 2 total  [0 ms]
+  - title='Alien' | year=1979 | rating=8.5
+  - title='Interstellar' | year=2014 | rating=8.7
+
+========================================================================
+  7) Highlighting: where did the term match?
+========================================================================
+  - title : Inception
+    where : A thief who steals corporate secrets through <<dream>>-sharing technology is given the inverse task of planting an idea into the mind of a CEO.
+  - title : Whiplash
+    where : A promising young drummer enrolls at a cut-throat music conservatory where his <<dream>>s of greatness are mentored by an instructor.
+
+========================================================================
+  8) Phrase search with quotes: '"dark knight"'
+========================================================================
+  -> 1 hits shown / 1 total  [0 ms]
+  - title='The Dark Knight' | year=2008 | rating=9.0
+
+All search demos finished.
+
+
+=== FACETS ===
+
+========================================================================
+  Facet distribution across the entire index
+========================================================================
+  total documents in scope: 40
+
+  facet: director
+    Christopher Nolan                5  #####
+    Peter Jackson                    3  ###
+    Francis Ford Coppola             2  ##
+    Frank Darabont                   2  ##
+    Hayao Miyazaki                   2  ##
+    Martin Scorsese                  2  ##
+    Quentin Tarantino                2  ##
+    Ridley Scott                     2  ##
+    Robert Zemeckis                  2  ##
+    Steven Spielberg                 2  ##
+
+  facet: genres
+    Drama                           28  ############################
+    Adventure                       14  ##############
+    Action                          12  ############
+    Sci-Fi                           9  #########
+    Crime                            8  ########
+    Animation                        6  ######
+    Thriller                         6  ######
+    Biography                        3  ###
+    Family                           3  ###
+    Fantasy                          3  ###
+
+========================================================================
+  Facets restricted to: rating > 8.5
+========================================================================
+  total documents in scope: 20
+
+  facet: genres
+    Drama                           15  ###############
+    Action                           8  ########
+    Adventure                        6  ######
+    Crime                            6  ######
+    Sci-Fi                           5  #####
+    Biography                        2  ##
+    Fantasy                          2  ##
+    Thriller                         2  ##
+    Animation                        1  #
+    Family                           1  #
+
+========================================================================
+  Combined: search 'crime' + facet by genre and year
+========================================================================
+  total documents in scope: 8
+    > The Godfather (1972)
+    > Pulp Fiction (1994)
+    > The Silence of the Lambs (1991)
+
+  facet: genres
+    Crime                            8  ########
+    Drama                            8  ########
+    Thriller                         3  ###
+    Action                           1  #
+    Biography                        1  #
+    Fantasy                          1  #
+
+  facet: year
+    1972                             1  #
+    1990                             1  #
+    1991                             1  #
+    1994                             1  #
+    1999                             1  #
+    2006                             1  #
+    2008                             1  #
+    2019                             1  #
+
+Facet demo finished.
+
